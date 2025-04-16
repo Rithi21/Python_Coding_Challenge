@@ -119,27 +119,32 @@ class InsuranceServiceImpl(IPolicyService):
                     print("Deletion cancelled.")
                     return False
                 
+                cursor.execute("DELETE FROM claim WHERE client_id IN (SELECT client_id FROM client WHERE policy_id = ?)", (policy_id,))
+                print(f"Claims associated with policy {policy_id} deleted.")
+
+                cursor.execute("DELETE FROM payment WHERE client_id IN (SELECT client_id FROM client WHERE policy_id = ?)", (policy_id,))
+                
+
                 cursor.execute("DELETE FROM client WHERE policy_id = ?", (policy_id,))
                 print(f"{count} client(s) associated with policy {policy_id} deleted.")
 
+                
             cursor.execute("DELETE FROM policy WHERE policy_id = ?", (policy_id,))
             conn.commit()
 
             if cursor.rowcount == 0:
-                raise PolicyNotFoundException(f"Policy with ID {policy_id} not found.")
+                raise PolicyNotFoundException(policy_id)
 
             print(f"Policy {policy_id} deleted successfully.")
             return True
 
-        except PolicyNotFoundException as e:
-            print(e)
-            return False
         except Exception as e:
             print("Error deleting policy:", e)
             return False
         finally:
             cursor.close()
             conn.close()
+
 
 
     def get_clients_by_policy(self, policy_id):
