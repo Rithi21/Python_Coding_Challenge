@@ -13,7 +13,8 @@ def main():
         print("4. Update Policy")
         print("5. Delete Policy")
         print("6. View Clients who Accessed a Policy")
-        print("7. Exit")
+        print("7. View Client's Insurance Summary")
+        print("8. Exit")
 
         choice = input("Enter your choice : ")
 
@@ -108,8 +109,17 @@ def main():
                     print("No clients found for this policy.")
             except Exception as e:
                 print("Error:", e)
+                
+        elif choice == "7":
+            try:
+                client_id = int(input("Enter Client ID to view insurance summary: "))
+                success = service.get_client_insurance_summary(client_id)
+                if not success:
+                    print(f"No insurance summary found for client ID {client_id}.")
+            except Exception as e:
+                print("Error:", e)
 
-        elif choice == '7':
+        elif choice == '8':
             print("Exiting... Thank you!")
             break
 
