@@ -1,5 +1,5 @@
 import pyodbc
-from util.db_property import DBProperty
+from util.db_property import PropertyUtil
 
 class DBConnection:
     connection = None
@@ -8,7 +8,7 @@ class DBConnection:
     def get_connection():
         if DBConnection.connection is None:
             try:
-                props = DBProperty.get_property_string("db.properties")
+                props = PropertyUtil.get_property_string("db.properties")
                 conn_str = (
                     f"DRIVER={{SQL Server}};"
                     f"SERVER={props['server']};"
