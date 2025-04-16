@@ -1,7 +1,7 @@
 import configparser
 import os
 
-class DBProperty:
+class PropertyUtil:
     @staticmethod
     def get_property_string(file_name: str) -> dict:
         config = configparser.ConfigParser()
