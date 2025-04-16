@@ -22,13 +22,18 @@ class User:
         self.__role=role
     def __str__(self):
         return f"User ID: {self.user_id}, Username: {self.username}, Role: {self.role}"
-        
+
+
 class AdminUser(User):
     def __init__(self, user_id, username, password):
         super().__init__(user_id, username, password, role="admin")
 
     def manage_policies(self):
         print(f"{self.get_username()} is managing policies.")
+
+    def __str__(self):
+        return f"User ID: {self.get_user_id()}, Username: {self.get_username()}, Role: {self.get_role()}"
+
         
 class AgentUser(User):
     def __init__(self, user_id, username, password):
@@ -36,6 +41,21 @@ class AgentUser(User):
 
     def assist_clients(self):
         print(f"{self.get_username()} is assisting clients.")
+
+    def __str__(self):
+        return f"User ID: {self.get_user_id()}, Username: {self.get_username()}, Role: {self.get_role()}"
+
+
+
+admin = AdminUser(1, "Kamal", "kamal123")
+agent = AgentUser(2, "Lakshmi", "Luck345")
+
+print(admin) 
+admin.manage_policies()
+
+print(agent) 
+agent.assist_clients()
+
 
 
   
