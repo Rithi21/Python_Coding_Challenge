@@ -10,5 +10,6 @@ A Python-based console application for managing insurance policies and clients, 
 - Update existing policy fields 
 - Delete a policy
 - View clients who accessed a particular policy
+- View client's complete insurance summary
   
 
