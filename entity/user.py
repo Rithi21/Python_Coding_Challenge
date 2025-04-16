@@ -20,7 +20,22 @@ class User:
         return self.__role
     def set_role(self,role):
         self.__role=role
-    
-
     def __str__(self):
         return f"User ID: {self.user_id}, Username: {self.username}, Role: {self.role}"
+        
+class AdminUser(User):
+    def __init__(self, user_id, username, password):
+        super().__init__(user_id, username, password, role="admin")
+
+    def manage_policies(self):
+        print(f"{self.get_username()} is managing policies.")
+        
+class AgentUser(User):
+    def __init__(self, user_id, username, password):
+        super().__init__(user_id, username, password, role="agent")
+
+    def assist_clients(self):
+        print(f"{self.get_username()} is assisting clients.")
+
+
+  
