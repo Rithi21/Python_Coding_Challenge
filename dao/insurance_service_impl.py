@@ -163,3 +163,48 @@ class InsuranceServiceImpl(IPolicyService):
         finally:
             cursor.close()
             conn.close()
+
+    def get_client_insurance_summary(self, client_id):
+        try:
+            conn = DBConnection.get_connection()
+            cursor = conn.cursor()
+
+            query = """ SELECT c.client_id,c.client_name,c.contact_info,p.policy_name,p.policy_type,cl.claim_number,cl.date_filed,cl.claim_amount,
+                cl.status AS claim_status,pay.payment_date,pay.payment_amount
+                 FROM 
+                client c
+            JOIN policy p ON c.policy_id = p.policy_id
+            LEFT JOIN claim cl ON c.client_id = cl.client_id
+            LEFT JOIN payment pay ON c.client_id = pay.client_id
+            WHERE c.client_id = ?
+        """
+
+            cursor.execute(query, (client_id,))
+            rows = cursor.fetchall()
+
+            if not rows:
+                print(f"No data found for client ID {client_id}")
+                return False
+            print("\n====== Client Insurance Summary ======")
+            for row in rows:
+                print(f"Client ID       : {row[0]}")
+                print(f"Client Name     : {row[1]}")
+                print(f"Contact Info    : {row[2]}")
+                print(f"Policy Name     : {row[3]}")
+                print(f"Policy Type     : {row[4]}")
+                print(f"Claim Number    : {row[5]}")
+                print(f"Claim Date      : {row[6]}")
+                print(f"Claim Amount    : {row[7]}")
+                print(f"Claim Status    : {row[8]}")
+                print(f"Payment Date    : {row[9]}")
+                print(f"Payment Amount  : {row[10]}")
+                print("--------------------------------------")
+                return True
+
+        except Exception as e:
+            print("Error fetching client insurance summary:", e)
+            return False
+        finally:
+            cursor.close()
+            conn.close()
+
